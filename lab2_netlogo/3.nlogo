@@ -4,17 +4,14 @@ turtles-own [ sell_price initial_product_volume product_volume tincome price_inc
 globals [ inc_sell_price_step dec_sell_price_step]
 
 to setup
-  ;; (for this model to work with NetLogo's new plotting features,
-  ;; __clear-all-and-reset-ticks should be replaced with clear-all at
-  ;; the beginning of your setup procedure and reset-ticks at the end
-  ;; of the procedure.)
   __clear-all-and-reset-ticks
   create-turtles 2
   [
     setxy random-xcor random-ycor
     set sell_price 1
-;    set tmoney (production_costs_1 + production_costs_2) * 100
   ]
+  ask turtle 0 [set sell_price Initial-price-1]
+  ask turtle 1 [set sell_price Initial-price-2]
   set inc_sell_price_step 1
   set dec_sell_price_step 1
   ask patches [
@@ -46,9 +43,6 @@ to go
 
   ask turtles
   [
-;    show tincome
-;    show initial_product_volume * sell_price
-
     ifelse tincome < initial_product_volume * sell_price
     [
       set sell_price max (list 1 (sell_price - dec_sell_price_step))
@@ -61,9 +55,6 @@ to go
       ]
     ]
   ]
-
-;  print "---------"
-
   update-plot
   ask patches [colorize]
   tick
@@ -90,8 +81,6 @@ to choose
 
   ask t [set sp sell_price set pv product_volume]
 
-;  type "pv = "
-;  print pv
   set l (try-buy sp pv)
   ask t
   [
@@ -116,19 +105,10 @@ to-report try-buy [arg_sell_price arg_product_volume]
     [
       set loc_price_incp true
       set would_buy min (list could_buy arg_product_volume)
-;      print "+"
     ]
     [
       set would_buy min (list could_buy required_volume)
-;      print "-"
     ]
-
-;    type "arg_product_volume = "
-;    print arg_product_volume
-;    type "could buy = "
-;    print could_buy
-;    type "would buy = "
-;    print would_buy
 
     set required_volume (required_volume - would_buy)
 
@@ -187,13 +167,13 @@ to colorize
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-37
-271
-282
-351
+10
+220
+255
+405
 0
 0
-50.0
+154.0
 1
 10
 1
@@ -214,70 +194,70 @@ ticks
 30.0
 
 SLIDER
-37
-75
-262
-108
+13
+52
+289
+85
 volume_of_production_1
 volume_of_production_1
 0
 100
-100
+12
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-36
-126
-264
-159
+11
+94
+290
+127
 volume_of_production_2
 volume_of_production_2
 0
 100
-100
-1
-1
-NIL
-HORIZONTAL
-
-SLIDER
-36
-179
-221
-212
-consumption_per_capita
-consumption_per_capita
-0
-100
-5
-1
-1
-NIL
-HORIZONTAL
-
-SLIDER
 34
-225
-319
-258
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+11
+137
+291
+170
+consumption_per_capita
+consumption_per_capita
+0
+100
+100
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+10
+180
+295
+213
 income_per_capita
 income_per_capita
 0
 5000
-21
+5000
 1
 1
 NIL
 HORIZONTAL
 
 BUTTON
-36
-23
-100
-56
+12
+10
+76
+43
 NIL
 setup
 NIL
@@ -291,10 +271,10 @@ NIL
 1
 
 BUTTON
-115
-23
-178
-56
+91
+10
+154
+43
 NIL
 go
 NIL
@@ -308,10 +288,10 @@ NIL
 1
 
 BUTTON
-198
-24
-261
-57
+174
+11
+237
+44
 NIL
 go
 T
@@ -325,10 +305,10 @@ NIL
 1
 
 MONITOR
-227
-280
-308
-325
+188
+224
+269
+269
 Средняя цена
 avg_price
 17
@@ -336,10 +316,10 @@ avg_price
 11
 
 PLOT
-331
+314
 10
 1308
-308
+282
 prices
 steps
 $
@@ -355,10 +335,10 @@ PENS
 "price-2" 1.0 0 -13345367 true "" ""
 
 MONITOR
-34
-451
-177
-496
+16
+414
+159
+459
 Текущая потребность
 current_demand
 17
@@ -366,10 +346,10 @@ current_demand
 11
 
 MONITOR
-193
-452
-305
-497
+175
+415
+287
+460
 Общая потребность
 total_demand
 17
@@ -377,9 +357,9 @@ total_demand
 11
 
 PLOT
-329
-318
-1307
+314
+290
+1309
 512
 mean required volume
 NIL
@@ -395,10 +375,10 @@ PENS
 "default" 1.0 0 -16777216 false "" ""
 
 MONITOR
-245
-336
-308
-381
+190
+281
+253
+326
 Цена #1
 [sell_price] of turtle 0
 17
@@ -406,15 +386,37 @@ MONITOR
 11
 
 MONITOR
-247
-393
-310
-438
+192
+338
+255
+383
 Цена #2
 [sell_price] of turtle 1
 17
 1
 11
+
+INPUTBOX
+25
+471
+142
+531
+Initial-Price-1
+0
+1
+0
+Number
+
+INPUTBOX
+170
+471
+285
+531
+Initial-Price-2
+0
+1
+0
+Number
 
 @#$#@#$#@
 ## WHAT IS IT?
